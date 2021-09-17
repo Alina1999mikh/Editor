@@ -6,7 +6,7 @@ public class EditString {
     }
 
     public static String deleteLastCharacter(String str) {
-        return deleteCharacter(str, str.length() - 2, str.length());
+        return deleteCharacter(str, str.length() - 1, str.length());
     }
 
     public static String addCharacter(String str, char c) {
@@ -15,6 +15,6 @@ public class EditString {
 
     public static Integer addCharacter(Integer str, Integer c) {
         if(str==null) return c;
-        return Integer.parseInt(str.toString() + c.toString());
+        return Integer.parseInt(str + c.toString());
     }
 }

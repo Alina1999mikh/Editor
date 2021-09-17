@@ -1,13 +1,9 @@
 import editor.MainEdit;
 import exeption.ActionException;
-import exeption.dataException;
-
-import java.io.BufferedReader;
-import java.util.Scanner;
+import exeption.DataException;
 
 public class Main {
-    public static void main(String[] args) throws dataException, ActionException {
+    public static void main(String[] args) throws DataException, ActionException {
         MainEdit.edit();
-
     }
 }

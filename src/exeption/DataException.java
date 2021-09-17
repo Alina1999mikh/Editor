@@ -1,0 +1,7 @@
+package exeption;
+
+public class DataException extends Exception {
+    public DataException(String data) {
+        super("Invalid data " + data);
+    }
+}
