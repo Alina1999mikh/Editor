@@ -1,9 +1,12 @@
 import editor.MainEdit;
 import exeption.ActionException;
+import exeption.ConstructorException;
 import exeption.DataException;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) throws DataException, ActionException {
+    public static void main(String[] args) throws DataException, ActionException, IOException, ConstructorException {
         MainEdit.edit();
     }
 }

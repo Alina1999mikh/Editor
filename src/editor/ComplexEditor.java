@@ -5,7 +5,7 @@ import exeption.DataException;
 import model.Complex;
 import tools.EditString;
 
-public class StringEditor {
+public class ComplexEditor extends AbstractEditor {
     private static final String FRACTIONAL_SEPARATOR = ".";
     private static final String Z_SEPARATOR = ",ix";
     private static final String NULL = "0,ix0";
@@ -15,8 +15,7 @@ public class StringEditor {
         return new Complex(NULL);
     }
 
-    public static Complex deleteNumber(Complex complex) throws DataException {
-        System.out.println("complex: " + complex.toString());
+    public static Complex deleteNumber(Complex complex) throws DataException, ActionException {
         return new Complex(EditString.deleteLastCharacter(complex.getComplex()));
     }
 

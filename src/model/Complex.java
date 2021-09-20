@@ -20,8 +20,7 @@ public class Complex {
                 s.split("x").length > 2) || s.split(",").length > 2 || !isNumber(s))
             throw new DataException("bad input " + s);
         else {
-            System.out.println("1 " + s);
-            isNumber(s);
+        isNumber(s);
             return true;
         }
     }
