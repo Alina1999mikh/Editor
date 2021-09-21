@@ -65,6 +65,15 @@ public class Complex {
         }
     }
 
+    //    public static void complexFinal(String complex) throws DataException {
+//        if (complex.split(Z_SEPARATOR).length != 2 || (complex.split("i").length != 2 ||
+//                complex.split("x").length != 2) || complex.split(",").length != 2)
+//            throw new DataException("bad input " + complex);
+//        else {
+//            String[] s2 = complex.split(Z_SEPARATOR);
+//            System.out.println(Double.parseDouble(s2[0]) + ",ix" + Double.parseDouble(s2[1]));
+//        }
+//    }
     public String getComplex() {
         return complex;
     }

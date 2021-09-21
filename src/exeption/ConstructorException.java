@@ -7,6 +7,10 @@ public class ConstructorException extends Exception {
         this.message = message;
     }
 
+    public ConstructorException() {
+        this.message = "Invalid data";
+    }
+
     public String toString() {
         return message;
     }

@@ -6,7 +6,7 @@ import exeption.DataException;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws DataException, ActionException, IOException, ConstructorException {
+    public static void main(String[] args) throws DataException, ActionException, ConstructorException, IOException {
         MainEdit.edit();
     }
 }
