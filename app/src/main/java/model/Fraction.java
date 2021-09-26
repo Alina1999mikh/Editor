@@ -1,14 +1,14 @@
 package model;
 
-import exeption.ConstructorException;
+import exeption.DataException;
+import lombok.Data;
 
-import java.util.Objects;
-
+@Data
 public class Fraction {
     public int a;
     public int b;
 
-    public Fraction(int a, int b) throws ConstructorException {
+    public Fraction(int a, int b) throws DataException {
         checkDeterminate(b);
         this.a = a;
         this.b = b;
@@ -16,16 +16,16 @@ public class Fraction {
         simplify();
     }
 
-    private void checkDeterminate(int b) throws ConstructorException {
+    private void checkDeterminate(int b) throws DataException {
         if (b == 0) {
-            throw new ConstructorException("Denominator cannot be 0");
+            throw new DataException("Denominator cannot be 0");
         }
     }
 
-    public Fraction(String f) throws ConstructorException {
+    public Fraction(String f) throws DataException {
         String[] fraction = f.split("/");
         if (fraction.length > 2) {
-            throw new ConstructorException("Invalid input");
+            throw new DataException("Invalid input");
         } else {
             this.a = Integer.parseInt(fraction[0]);
             this.b = Integer.parseInt(fraction[1]);
@@ -57,18 +57,5 @@ public class Fraction {
     @Override
     public String toString() {
         return a + "/" + b;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Fraction fraction = (Fraction) o;
-        return a == fraction.a && b == fraction.b;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(a, b);
     }
 }

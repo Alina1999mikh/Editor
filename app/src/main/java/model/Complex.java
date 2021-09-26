@@ -1,9 +1,9 @@
 package model;
 
 import exeption.DataException;
+import lombok.Data;
 
-import java.util.Objects;
-
+@Data
 public class Complex {
     public String complex;
 
@@ -23,24 +23,6 @@ public class Complex {
         isNumber(s);
             return true;
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Complex complex1 = (Complex) o;
-        return Objects.equals(complex, complex1.complex);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(complex);
-    }
-
-    @Override
-    public String toString() {
-        return complex;
     }
 
     public static boolean isNumber(String s) throws DataException {
@@ -63,18 +45,5 @@ public class Complex {
         } else {
             throw new DataException("bad input " + s + " ");
         }
-    }
-
-    //    public static void complexFinal(String complex) throws DataException {
-//        if (complex.split(Z_SEPARATOR).length != 2 || (complex.split("i").length != 2 ||
-//                complex.split("x").length != 2) || complex.split(",").length != 2)
-//            throw new DataException("bad input " + complex);
-//        else {
-//            String[] s2 = complex.split(Z_SEPARATOR);
-//            System.out.println(Double.parseDouble(s2[0]) + ",ix" + Double.parseDouble(s2[1]));
-//        }
-//    }
-    public String getComplex() {
-        return complex;
     }
 }

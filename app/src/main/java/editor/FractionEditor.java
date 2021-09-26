@@ -1,6 +1,6 @@
 package editor;
 
-import exeption.ConstructorException;
+import exeption.DataException;
 import model.Fraction;
 
 public class FractionEditor extends AbstractEditor {
@@ -26,9 +26,17 @@ public class FractionEditor extends AbstractEditor {
     protected boolean isValid(String s) {
         try {
             String[] mass = s.split(SEPARATOR);
+            if (mass.length > 2) return false;
             for (String value : mass) {
-                System.out.println(value);
-                Integer.parseInt(value); //check valid
+                char[] c = value.toCharArray();
+                for (int i = 0; i < c.length; i++) {
+                    System.out.println(c[i]);
+                    try {
+                        Integer.parseInt(String.valueOf(c[i]));
+                    } catch (NumberFormatException e) {
+                        return i == 0 && c[i] == '-';
+                    }
+                }
             }
             return true;
         } catch (NumberFormatException e) {
@@ -42,7 +50,7 @@ public class FractionEditor extends AbstractEditor {
     }
 
     @Override
-    public boolean isNull(String s) throws ConstructorException {
+    public boolean isNull(String s) throws DataException {
         return new Fraction(s).equals(new Fraction(NULL));
     }
 }

@@ -1,9 +1,11 @@
 package model.TPNumber;
 
 import exeption.DataException;
+import lombok.Data;
 
 import java.util.Arrays;
 
+@Data
 public class TPNumber {
     String[] n = new String[2];
     int b;
@@ -32,9 +34,11 @@ public class TPNumber {
         if (!isValid()) throw new DataException();
     }
 
+    public TPNumber copy() {
+        return this;
+    }
 
     private boolean isValid() {
-
         return (b >= 2 && b <= 16 && c >= 0) && isValidN();
     }
 
@@ -51,21 +55,8 @@ public class TPNumber {
         return toString();
     }
 
-
-    public int getB() {
-        return b;
-    }
-
-    public void setB(int b) {
-        this.b = b;
-    }
-
-    public int getC() {
-        return c;
-    }
-
-    public void setC(int c) {
-        this.c = c;
+    public String[] getMassiveN() {
+        return n;
     }
 
     public String getN() {

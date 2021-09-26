@@ -1,16 +1,14 @@
 package editor;
 
 import exeption.ActionException;
-import exeption.ConstructorException;
 import exeption.DataException;
 import model.Complex;
 import model.Fraction;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class MainEdit {
-    public static void edit() throws DataException, ActionException, ConstructorException, IOException {
+    public static void edit() throws DataException, ActionException {
         Scanner in = new Scanner(System.in);
         System.out.println("1-Complex   |   2- Fraction ");
         int m = in.nextInt();

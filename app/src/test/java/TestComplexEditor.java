@@ -2,11 +2,10 @@ import editor.ComplexEditor;
 import exeption.ActionException;
 import exeption.DataException;
 import model.Complex;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.Assert.*;
 
 public class TestComplexEditor {
 
@@ -16,9 +15,9 @@ public class TestComplexEditor {
     public TestComplexEditor() {
     }
 
-    @Test(expected = DataException.class)
-    public void testConstructorException() throws DataException {
-        new Complex("4,-ix6");
+    @Test
+    public void testConstructorException() {
+        assertThrows(DataException.class, () -> new Complex("4,-ix6"));
     }
 
     @Test
@@ -39,18 +38,18 @@ public class TestComplexEditor {
     }
 
     @Test
-    public void testAddNumber() throws IOException {
+    public void testAddNumber() throws DataException {
         assertEquals(editor.addNumber("4,ix6", "5"), "4,ix65");
     }
 
     @Test
-    public void testAddNull() throws IOException {
+    public void testAddNull() throws DataException {
         assertEquals(editor.addNull("4,ix6"), "4,ix60");
     }
 
-    @Test(expected = ActionException.class)
-    public void testAddNumberException() throws ActionException {
-        editor.addSignature("4.9,i");
+    @Test
+    public void testAddNumberException() {
+        assertThrows(ActionException.class, () -> editor.addSignature("4.9,i"));
     }
 
     @Test

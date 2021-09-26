@@ -1,16 +1,14 @@
 package editor;
 
 import exeption.ActionException;
-import exeption.ConstructorException;
 import exeption.DataException;
 import tools.EditString;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public abstract class AbstractEditor {
 
-    public String editor(String s) throws ActionException, IOException {
+    public String editor(String s) throws ActionException, DataException {
         Scanner inMenu = new Scanner(System.in);
 
         while (true) {
@@ -57,16 +55,16 @@ public abstract class AbstractEditor {
         return EditString.deleteLastCharacter(s);
     }
 
-    public String addNumber(String s, String add) throws IOException {
+    public String addNumber(String s, String add) throws DataException {
         char[] c = add.toCharArray();
         for (char value : c) {
             s = EditString.addCharacter(s, value);
         }
         if (isValid(s)) return s;
-        else throw new IOException("Invalid input");
+        else throw new DataException("Invalid input");
     }
 
-    public String addNull(String f) throws IOException {
+    public String addNull(String f) throws DataException {
         return addNumber(f, "0");
     }
 
@@ -88,5 +86,5 @@ public abstract class AbstractEditor {
 
     protected abstract String clear();
 
-    protected abstract boolean isNull(String s) throws ConstructorException, DataException;
+    protected abstract boolean isNull(String s) throws DataException;
 }

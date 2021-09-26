@@ -6,13 +6,17 @@ public class EditString {
     public static String deleteCharacter(String str, int from, int to) throws ActionException {
         try {
             return str.substring(0, from) + str.substring(to);
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new ActionException("nothing no delete");
+        } catch (StringIndexOutOfBoundsException | NullPointerException e) {
+            throw new ActionException("nothing to delete");
         }
     }
 
     public static String deleteLastCharacter(String str) throws ActionException {
-        return deleteCharacter(str, str.length() - 1, str.length());
+        try {
+            return deleteCharacter(str, str.length() - 1, str.length());
+        } catch (NullPointerException e) {
+            throw new ActionException();
+        }
     }
 
     public static String addCharacter(String str, char c) {
