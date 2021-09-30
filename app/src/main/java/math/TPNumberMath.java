@@ -1,39 +1,125 @@
 package math;
 
+import exeption.ActionException;
+import exeption.DataException;
 import model.TPNumber.TPNumber;
 import model.TPNumber.TPNumberAlphabets;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class TPNumberMath {
-    public static void add(TPNumber a, TPNumber b) {
-        int ss = a.getB();
-        char[] alphabet = TPNumberAlphabets.getAlphabet(ss);
-        int a1 = Integer.parseInt(a.getMassiveN()[0]);
-        int a2 = Integer.parseInt(a.getMassiveN()[1]);
 
-        int b1 = Integer.parseInt(b.getMassiveN()[0]);
-        int b2 = Integer.parseInt(b.getMassiveN()[1]);
-        //    1.1  +  1.1
-        int answer2 = (a2 + b2);  // 2
-        int answer1 = (a1 + b1) + (answer2 / ss);  //2+(1)=3
-        StringBuilder an = new StringBuilder();
-        if (answer1 / ss >= 1) {
-            while (answer1 >= ss) {
-                System.out.println("1 " + answer1);
+    public static TPNumber add(TPNumber a, TPNumber b) throws ActionException, DataException {
+        if (isValid(a, b)) {
+            return (new TPNumber(doScaleNotation(String.valueOf(toDecimal(a) + toDecimal(b)), a.getB(), a.getC()), a.getB(), a.getC()));
+        } else throw new ActionException();
+    }
 
-                an.append(alphabet[alphabet.length - 1]);
+    public static TPNumber multiplication(TPNumber a, TPNumber b) throws ActionException, DataException {
+        if (isValid(a, b)) {
+            return (new TPNumber(doScaleNotation(String.valueOf(toDecimal(a) * toDecimal(b)), a.getB(), a.getC()), a.getB(), a.getC()));
+        } else throw new ActionException();
+    }
 
-                answer1 = answer1 - Integer.parseInt(String.valueOf(alphabet[alphabet.length - 1]));
-            }
-            System.out.println("3 " + answer1);
+    public static TPNumber subtraction(TPNumber a, TPNumber b) throws ActionException, DataException {
+        if (isValid(a, b)) {
+            Double decimalA = toDecimal(a);
+            Double decimalB = toDecimal(b);
+            if (decimalA > decimalB)
+                return new TPNumber(doScaleNotation(String.valueOf(decimalA - decimalB), a.getB(), a.getC()), a.getB(), a.getC());
+            else
+                return new TPNumber("-" + doScaleNotation(String.valueOf(decimalB - decimalA), a.getB(), a.getC()), a.getB(), a.getC());
 
-            an.append(answer1 % ss);
-            answer1 = Integer.parseInt(String.valueOf(an));
+        } else throw new ActionException();
+    }
+
+    public static TPNumber division(TPNumber a, TPNumber b) throws DataException {
+        Double decimalA = toDecimal(a);
+        Double decimalB = toDecimal(b);
+        if (decimalB == 0) throw new DataException("zero division");
+        else {
+            return new TPNumber(doScaleNotation(String.valueOf(decimalA / decimalB), a.getB(), a.getC()), a.getB(), a.getC());
         }
+    }
 
-        answer2 = answer2 % ss;
-        System.out.println(a1 + "." + a2);
-        System.out.println(b1 + "." + b2);
-        System.out.println("_______________");
-        System.out.println(answer1 + "." + answer2);
+    private static boolean isValid(TPNumber a, TPNumber b) {
+        return (a.getB() == b.getB() && a.getC() == b.getC());
+    }
+
+    private static String doScaleNotation(String a, int b, int c) {
+        String[] s = a.split(TPNumber.getSEPARATOR());
+        String a1 = doBeforeSeparation(Long.parseLong(s[0]), b);
+        if (s.length == 2) {
+            String a2 = doAfterSeparation(Double.parseDouble("0." + s[1]), b, c);
+            return a1 + "." + a2;
+        } else return a1;
+
+    }
+
+    private static String doBeforeSeparation(long a, int b) {
+        ArrayList<String> list = new ArrayList<>();
+
+        if (a == 0) addToList(list, 0, b);
+        else while (a != 0) {
+            addToList(list, (int) (a % b), b);
+            a = a / b;
+        }
+        Collections.reverse(list);
+        return listToString(list);
+    }
+
+    private static void addToList(ArrayList<String> list, int add, int b) {
+        if (add > 9) list.add(String.valueOf(TPNumberAlphabets.getAlphabet(b)[add]));
+        else list.add(String.valueOf(add));
+    }
+
+    private static String doAfterSeparation(Double a, int b, int c) {
+        String[] res;
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < c; i++) {
+            res = String.valueOf(a * b).split(TPNumber.getSEPARATOR());
+            a = Double.parseDouble("0." + res[1]);
+            addToList(list, Integer.parseInt(res[0]), b);
+            if (Long.parseLong(res[1]) == 0) {
+                break;
+            }
+        }
+        return listToString(list);
+    }
+
+    private static Double toDecimal(TPNumber t) throws DataException {
+        String s = t.getN();
+        String digits = String.valueOf(TPNumberAlphabets.getAlphabet(t.getB()));
+        s = s.toUpperCase();
+        String[] part = s.split("\\.");
+        double val = 0;
+        if (part.length == 2) {
+            String partAll = part[0] + part[1];
+            for (int i = part[0].length() - 1, j = 0; i >= part[1].length() * (-1); i--, j++) {
+                int d = digits.indexOf(partAll.charAt(j));
+                val = val + d * Math.pow(t.getB(), i);
+            }
+        } else {
+            if (part.length == 1) {
+                for (int i = part[0].length() - 1, j = 0; i >= 0; i--, j++) {
+                    int d = digits.indexOf(part[0].charAt(j));
+                    val = val + d * Math.pow(t.getB(), i);
+                }
+            } else throw new DataException();
+        }
+        return val;
+    }
+
+    private static String listToString(List<String> list) {
+        StringBuilder res = new StringBuilder();
+        for (String s : list) res.append(s);
+        for (int i = res.length() - 1; i >= 0; i--) {
+            if (res.charAt(i) == '0' && i != 0) {
+                res.deleteCharAt(i);
+            } else break;
+        }
+        return res.toString();
     }
 }

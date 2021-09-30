@@ -1,33 +1,65 @@
+import exeption.ActionException;
 import exeption.DataException;
+import math.TPNumberMath;
 import model.TPNumber.TPNumber;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestRnumber {
     @Test
     public void testConstructor() throws DataException {
-        assertEquals(new TPNumber("1.1210", 3, 2).toString(), "1.12,3,2");
-        assertEquals(new TPNumber("1.1210", 3, 0).toString(), "1,3,0");
-        assertEquals(new TPNumber("2", 3, 3).toString(), "2.0,3,3");
-        assertEquals(new TPNumber("1.", 3, 2).toString(), "1.0,3,2");
-        assertEquals(new TPNumber(".1", 3, 1).toString(), "0.1,3,1");
+        assertEquals(new TPNumber("1.1234", 10, 2).toString(), "1.12,10,2");
+    }
 
+    @Test
+    public void testCopy() throws DataException {
+        assertEquals(new TPNumber("1.1210", 3, 2).copy(), new TPNumber("1.1210", 3, 2));
     }
 
     @Test
     public void testConstructorException() {
         assertThrows(DataException.class, () -> new TPNumber("3.1234", 3, 2));
-    }
-
-    @Test
-    public void testConstructorException2() {
         assertThrows(DataException.class, () -> new TPNumber("3.123.4", 3, 2));
+        assertThrows(DataException.class, () -> new TPNumber("3A.34", 6, 2));
     }
 
     @Test
-    public void testConstructorException3() {
-        assertThrows(DataException.class, () -> new TPNumber("3A.34", 6, 2));
+    public void testEquals() throws DataException {
+        assertNotEquals(new TPNumber("1234", 10, 2), new TPNumber("1234", 10, 3));
+        assertEquals(new TPNumber("1234", 10, 2), new TPNumber("1234", 10, 2));
+    }
+
+    @Test
+    public void testAdd() throws DataException, ActionException {
+        assertEquals(TPNumberMath.add(new TPNumber("A67.B2", 16, 2), new TPNumber("C5.11", 16, 2)), new TPNumber("B2C.C3", 16, 2));
+        assertEquals(TPNumberMath.add(new TPNumber("46.56", 8, 4), new TPNumber("736.42", 8, 4)), new TPNumber("1005.2", 8, 4));
+    }
+
+    @Test
+    public void testSubtraction() throws DataException, ActionException {
+        assertEquals(TPNumberMath.subtraction(new TPNumber("A67.B2", 16, 2), new TPNumber("C5.11", 16, 2)), new TPNumber("9A2.A1", 16, 2));
+        assertEquals(TPNumberMath.subtraction(new TPNumber("46.56", 8, 4), new TPNumber("736.42", 8, 4)), new TPNumber("-667.64", 8, 4));
+    }
+
+    @Test
+    public void testMultiplication() throws DataException, ActionException {
+        assertEquals(TPNumberMath.multiplication(new TPNumber("A67.B", 16, 2), new TPNumber("C5.11", 16, 2)), new TPNumber("8027B.52B0", 16, 2));
+        assertEquals(TPNumberMath.multiplication(new TPNumber("46.56", 8, 4), new TPNumber("736.42", 8, 4)), new TPNumber("4414.1034", 8, 4));
+        assertEquals(TPNumberMath.multiplication(new TPNumber("7.17832", 10, 4), new TPNumber("10.2", 10, 4)), new TPNumber("73.2186", 10, 4));
+    }
+
+    @Test
+    public void testDivision() throws DataException {
+        assertEquals(TPNumberMath.division(new TPNumber("A67.B", 16, 2), new TPNumber("C5.11", 16, 2)), new TPNumber("D.8446741292", 16, 2));
+        assertEquals(TPNumberMath.division(new TPNumber("46.56", 8, 4), new TPNumber("736.42", 8, 4)), new TPNumber("0.051332400771", 8, 4));
+        assertEquals(TPNumberMath.division(new TPNumber("7.17832", 10, 4), new TPNumber("10.2", 10, 4)), new TPNumber("0.7037", 10, 4));
+    }
+
+    @Test
+    public void testGetN() throws DataException {
+        assertEquals(new TPNumber("1234.344678", 10, 2).getN(), "1234.34");
+        assertEquals(new TPNumber("1234", 10, 2).getN(), "1234");
+        assertEquals(new TPNumber("1234.36", 10, 2).getN(), "1234.36");
     }
 }
