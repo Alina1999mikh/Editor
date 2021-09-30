@@ -44,6 +44,14 @@ public class TPNumberMath {
         }
     }
 
+    public static TPNumber square(TPNumber a) throws DataException, ActionException {
+        return multiplication(a, a);
+    }
+
+    public static TPNumber inverse(TPNumber a) throws DataException {
+        return division(new TPNumber("1", a.getB(), a.getC()), a);
+    }
+
     private static boolean isValid(TPNumber a, TPNumber b) {
         return (a.getB() == b.getB() && a.getC() == b.getC());
     }
@@ -55,7 +63,6 @@ public class TPNumberMath {
             String a2 = doAfterSeparation(Double.parseDouble("0." + s[1]), b, c);
             return a1 + "." + a2;
         } else return a1;
-
     }
 
     private static String doBeforeSeparation(long a, int b) {
@@ -109,6 +116,8 @@ public class TPNumberMath {
                 }
             } else throw new DataException();
         }
+        System.out.println("val " + val);
+
         return val;
     }
 

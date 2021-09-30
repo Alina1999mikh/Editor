@@ -46,7 +46,14 @@ public class TestRnumber {
     public void testMultiplication() throws DataException, ActionException {
         assertEquals(TPNumberMath.multiplication(new TPNumber("A67.B", 16, 2), new TPNumber("C5.11", 16, 2)), new TPNumber("8027B.52B0", 16, 2));
         assertEquals(TPNumberMath.multiplication(new TPNumber("46.56", 8, 4), new TPNumber("736.42", 8, 4)), new TPNumber("4414.1034", 8, 4));
-        assertEquals(TPNumberMath.multiplication(new TPNumber("7.17832", 10, 4), new TPNumber("10.2", 10, 4)), new TPNumber("73.2186", 10, 4));
+        assertEquals(TPNumberMath.multiplication(new TPNumber("7.17832", 10, 4), new TPNumber("10.2", 10, 4)), new TPNumber("73.2188864", 10, 4));
+    }
+
+    @Test
+    public void testSquare() throws DataException, ActionException {
+        assertEquals(TPNumberMath.square(new TPNumber("A67.B", 16, 2)), new TPNumber("6C43Bf.19", 16, 2));
+        assertEquals(TPNumberMath.square(new TPNumber("46.56", 8, 4)), new TPNumber("2733.1104", 8, 4));
+        assertEquals(TPNumberMath.square(new TPNumber("7.17832", 10, 4)), new TPNumber("51.528278", 10, 4));
     }
 
     @Test
@@ -57,9 +64,14 @@ public class TestRnumber {
     }
 
     @Test
+    public void testDivisionException() {
+        assertThrows(DataException.class, () -> TPNumberMath.division(new TPNumber("7.17832", 10, 4), new TPNumber("0", 10, 4)));
+    }
+
+    @Test
     public void testGetN() throws DataException {
-        assertEquals(new TPNumber("1234.344678", 10, 2).getN(), "1234.34");
-        assertEquals(new TPNumber("1234", 10, 2).getN(), "1234");
-        assertEquals(new TPNumber("1234.36", 10, 2).getN(), "1234.36");
+        assertEquals(new TPNumber("1234.344678", 10, 2).getShortN(), "1234.34");
+        assertEquals(new TPNumber("1234", 10, 2).getShortN(), "1234");
+        assertEquals(new TPNumber("1234.36", 10, 2).getShortN(), "1234.36");
     }
 }

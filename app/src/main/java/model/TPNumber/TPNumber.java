@@ -57,7 +57,7 @@ public class TPNumber {
         return toString();
     }
 
-    public String getN() {
+    public String getShortN() {
         StringBuilder res = new StringBuilder();
         String[] sp = n.split(SEPARATOR);
         if (sp.length > 1) {
@@ -65,6 +65,10 @@ public class TPNumber {
                 return sp[0] + "." + sp[1].substring(0, c);
             else return sp[0] + "." + sp[1];
         } else return sp[0];
+    }
+
+    public String getN() {
+        return n;
     }
 
     private int getIndex(char[] alphabet, char charAt) {
@@ -77,7 +81,7 @@ public class TPNumber {
 
     @Override
     public String toString() {
-        return getN() + "," + b + "," + c;
+        return getShortN() + "," + b + "," + c;
     }
 
     @Override
@@ -101,7 +105,7 @@ public class TPNumber {
             return b == tpNumber.b && c == tpNumber.c && Objects.equals(tmpN1[0], tmpN2[0]) && Objects.equals(tmpN1[1].substring(0, c), tmpN2[1].substring(0, c));
 
         } else
-            return b == tpNumber.b && c == tpNumber.c && Objects.equals(this.getN(), tpNumber.getN());
+            return b == tpNumber.b && c == tpNumber.c && Objects.equals(this.getShortN(), tpNumber.getShortN());
     }
 
     @Override
