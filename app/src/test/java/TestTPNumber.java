@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestRnumber {
+public class TestTPNumber {
     @Test
     public void testConstructor() throws DataException {
         assertEquals(new TPNumber("1.1234", 10, 2).toString(), "1.12,10,2");

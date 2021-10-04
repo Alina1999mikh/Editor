@@ -45,6 +45,11 @@ public class FractionEditor extends AbstractEditor {
     }
 
     @Override
+    protected boolean isValid(String s, int b, int c) {
+        return isValid(s);
+    }
+
+    @Override
     public String clear() {
         return NULL;
     }

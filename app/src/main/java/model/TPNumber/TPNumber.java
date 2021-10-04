@@ -23,7 +23,7 @@ public class TPNumber {
         this.n = n.toUpperCase();
         this.b = b;
         this.c = c;
-        if (!isValid(n)) throw new DataException();
+        if (!isValid(n, b, c)) throw new DataException();
         alphabet = TPNumberAlphabets.getAlphabet(b);
     }
 
@@ -31,11 +31,11 @@ public class TPNumber {
         return new TPNumber(n, b, c);
     }
 
-    private boolean isValid(String n) {
-        return (b >= 2 && b <= 16 && c >= 0) && isValidN(n);
+    public static boolean isValid(String n, int b, int c) {
+        return (b >= 2 && b <= 16 && c >= 0) && isValidN(n, b);
     }
 
-    private boolean isValidN(String n) {
+    private static boolean isValidN(String n, int b) {
         String alphabet = Arrays.toString(TPNumberAlphabets.getAlphabet(b));
         n = n.toUpperCase();
         char[] m = n.toCharArray();
@@ -58,13 +58,15 @@ public class TPNumber {
     }
 
     public String getShortN() {
-        StringBuilder res = new StringBuilder();
         String[] sp = n.split(SEPARATOR);
         if (sp.length > 1) {
+            if (c == 0)
+                return sp[0];
+
             if (c < sp[1].length())
                 return sp[0] + "." + sp[1].substring(0, c);
-            else return sp[0] + "." + sp[1];
-        } else return sp[0];
+            else return n;
+        } else return n;
     }
 
     public String getN() {

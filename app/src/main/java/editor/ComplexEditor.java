@@ -1,5 +1,6 @@
 package editor;
 
+import exeption.ActionException;
 import exeption.DataException;
 import model.Complex;
 
@@ -13,7 +14,9 @@ public class ComplexEditor extends AbstractEditor {
     }
 
     @Override
-    protected String adderSignature(String[] str) {
+    protected String adderSignature(String[] str) throws ActionException {
+        if (str.length != 2) throw new ActionException("you cant add signature here");
+
         double re = Double.parseDouble(str[0]) * (-1);
         double im = Double.parseDouble(str[1]) * (-1);
         if (im % 1 == 0 && re % 1 == 0) return (int) re + Z_SEPARATOR + (int) im;
@@ -30,6 +33,11 @@ public class ComplexEditor extends AbstractEditor {
     @Override
     protected boolean isValid(String s) {
         return true;
+    }
+
+    @Override
+    protected boolean isValid(String s, int b, int c) {
+        return isValid(s);
     }
 
     @Override
