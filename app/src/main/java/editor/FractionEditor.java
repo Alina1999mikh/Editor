@@ -30,7 +30,6 @@ public class FractionEditor extends AbstractEditor {
             for (String value : mass) {
                 char[] c = value.toCharArray();
                 for (int i = 0; i < c.length; i++) {
-                    System.out.println(c[i]);
                     try {
                         Integer.parseInt(String.valueOf(c[i]));
                     } catch (NumberFormatException e) {

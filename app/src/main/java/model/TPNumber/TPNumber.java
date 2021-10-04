@@ -45,7 +45,6 @@ public class TPNumber {
                 if ((value == '.' && flag < 2) || value == '-') {
                     flag++;
                 } else {
-                    System.out.println(value);
                     return false;
                 }
             }
@@ -97,13 +96,11 @@ public class TPNumber {
         if (tmpN2[0] == null) tmpN2[0] = String.valueOf(0);
         if (tmpN1.length < 2) {
             if (c != 0 && tmpN2.length != 1) {
-                System.out.println("1");
                 return false;
             } else return Objects.equals(tmpN1[0], tmpN2[0]) && b == tpNumber.b && c == tpNumber.c;
         }
 
         if (c <= tmpN1[1].length() && c <= tmpN1[0].length()) {
-            System.out.println("2");
             return b == tpNumber.b && c == tpNumber.c && Objects.equals(tmpN1[0], tmpN2[0]) && Objects.equals(tmpN1[1].substring(0, c), tmpN2[1].substring(0, c));
 
         } else

@@ -38,7 +38,7 @@ public class TestTPNumberEditor {
     }
 
     @Test
-    public void isNull() throws DataException {
+    public void isNull() {
         assertTrue(editor.isNull("0"));
         assertFalse(editor.isNull("3"));
     }

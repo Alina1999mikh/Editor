@@ -68,7 +68,6 @@ public abstract class AbstractEditor {
                     System.out.print("Input what you want to add");
                     String c2 = add.nextLine();
                     s = addNumber(s, b, c, c2);
-                    // isValid(s,b);
                     System.out.println(s);
                 }
 
@@ -143,9 +142,7 @@ public abstract class AbstractEditor {
 
     protected abstract boolean isValid(String s, int b, int c);
 
-
     protected abstract String clear();
 
     protected abstract boolean isNull(String s) throws DataException;
-
 }

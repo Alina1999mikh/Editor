@@ -116,8 +116,6 @@ public class TPNumberMath {
                 }
             } else throw new DataException();
         }
-        System.out.println("val " + val);
-
         return val;
     }
 
