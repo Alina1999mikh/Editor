@@ -32,8 +32,9 @@ public class TestTPNumber {
 
     @Test
     public void testAdd() throws DataException, ActionException {
-        assertEquals(TPNumberMath.add(new TPNumber("A67.B2", 16, 2), new TPNumber("C5.11", 16, 2)), new TPNumber("B2C.C3", 16, 2));
-        assertEquals(TPNumberMath.add(new TPNumber("46.56", 8, 4), new TPNumber("736.42", 8, 4)), new TPNumber("1005.2", 8, 4));
+
+        assertEquals(new TPNumberMath(new TPNumber("A67.B2", 16, 2)).add(new TPNumber("C5.11", 16, 2)), new TPNumber("B2C.C3", 16, 2));
+        assertEquals(new TPNumberMath(new TPNumber("46.56", 8, 4)).add(new TPNumber("736.42", 8, 4)), new TPNumber("1005.2", 8, 4));
     }
 
     @Test

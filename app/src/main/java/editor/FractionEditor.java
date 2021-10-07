@@ -5,21 +5,18 @@ import model.Fraction;
 
 public class FractionEditor extends AbstractEditor {
 
-    public final static String SEPARATOR = "/";
-    private final static String NULL = "0/1";
-
     public FractionEditor() {
         super();
     }
 
     @Override
     public String adderSignature(String[] s) {
-        return Integer.parseInt(s[0]) * (-1) + SEPARATOR + Integer.parseInt(s[1]);
+        return Integer.parseInt(s[0]) * (-1) + Fraction.SEPARATOR + Integer.parseInt(s[1]);
     }
 
     @Override
     public String[] deleteSeparate(String s) {
-        return s.split(SEPARATOR);
+        return s.split(Fraction.SEPARATOR);
     }
 
     @Override
@@ -29,11 +26,11 @@ public class FractionEditor extends AbstractEditor {
 
     @Override
     public String clear() {
-        return NULL;
+        return Fraction.NULL;
     }
 
     @Override
     public boolean isNull(String s) throws DataException {
-        return new Fraction(s).equals(new Fraction(NULL));
+        return new Fraction(s).equals(new Fraction(Fraction.NULL));
     }
 }

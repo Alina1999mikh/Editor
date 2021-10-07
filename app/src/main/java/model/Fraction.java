@@ -7,6 +7,8 @@ import lombok.Data;
 public class Fraction {
     public int a;
     public int b;
+    public final static String SEPARATOR = "/";
+    public final static String NULL = "0/1";
 
     public Fraction(int a, int b) throws DataException {
         checkDeterminate(b);

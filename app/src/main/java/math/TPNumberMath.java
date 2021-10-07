@@ -6,15 +6,28 @@ import model.TPNumber.TPNumber;
 import model.TPNumber.TPNumberAlphabets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class TPNumberMath {
+public class TPNumberMath extends AbstractMath<TPNumber> {
+    TPNumber a;
 
-    public static TPNumber add(TPNumber a, TPNumber b) throws ActionException, DataException {
-        if (isValid(a, b)) {
+    public TPNumberMath(TPNumber a) {
+        this.a = a;
+    }
+
+    @Override
+    public TPNumber add(TPNumber b) throws ActionException, DataException {
+        TPNumber a = this.a;
+        if (isValid(this.a, b)) {
             return (new TPNumber(doScaleNotation(String.valueOf(toDecimal(a) + toDecimal(b)), a.getB(), a.getC()), a.getB(), a.getC()));
         } else throw new ActionException();
+    }
+
+    @Override
+    public TPNumber getNull() throws DataException {
+        return new TPNumber(TPNumber.NULL, 10, 0);
     }
 
     public static TPNumber multiplication(TPNumber a, TPNumber b) throws ActionException, DataException {
@@ -57,7 +70,10 @@ public class TPNumberMath {
     }
 
     private static String doScaleNotation(String a, int b, int c) {
-        String[] s = a.split(TPNumber.getSEPARATOR());
+        String[] s = a.split("\\.");
+        System.out.println("a= " + a);
+        System.out.println("s= " + Arrays.toString(s));
+
         String a1 = doBeforeSeparation(Long.parseLong(s[0]), b);
         if (s.length == 2) {
             String a2 = doAfterSeparation(Double.parseDouble("0." + s[1]), b, c);
@@ -86,7 +102,7 @@ public class TPNumberMath {
         String[] res;
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < c; i++) {
-            res = String.valueOf(a * b).split(TPNumber.getSEPARATOR());
+            res = String.valueOf(a * b).split("\\.");
             a = Double.parseDouble("0." + res[1]);
             addToList(list, Integer.parseInt(res[0]), b);
             if (Long.parseLong(res[1]) == 0) {

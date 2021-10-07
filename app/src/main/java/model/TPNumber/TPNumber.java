@@ -8,7 +8,8 @@ import java.util.Objects;
 
 @Data
 public class TPNumber {
-    private static final String SEPARATOR = "\\.";
+    public static final String SEPARATOR = "\\.";
+    public final static String NULL = "0";
     String n;
     int b;
     private char[] alphabet;
@@ -60,7 +61,7 @@ public class TPNumber {
     }
 
     public String getShortN() {
-        String[] sp = n.split(SEPARATOR);
+        String[] sp = n.split("\\.");
         if (sp.length > 1) {
             if (c == 0)
                 return sp[0];
