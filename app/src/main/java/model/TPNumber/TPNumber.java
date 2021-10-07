@@ -39,11 +39,14 @@ public class TPNumber {
         String alphabet = Arrays.toString(TPNumberAlphabets.getAlphabet(b));
         n = n.toUpperCase();
         char[] m = n.toCharArray();
-        int flag = 0;
+        int flagSeparator = 0;
+        int flagMinus = 0;
         for (char value : m) {
             if (!alphabet.contains(Character.toString(value))) {
-                if ((value == '.' && flag < 2) || value == '-') {
-                    flag++;
+                if ((value == '.' && flagSeparator < 1)) {
+                    flagSeparator++;
+                } else if (value == '-' && flagMinus < 1) {
+                    flagMinus++;
                 } else {
                     return false;
                 }

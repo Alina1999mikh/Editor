@@ -1,12 +1,15 @@
 import editor.FractionEditor;
+import editor.Validator;
 import exeption.ActionException;
 import exeption.DataException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 public class TestFractionEditor {
     FractionEditor editor = new FractionEditor();
+    Validator v = new Validator();
 
     @Test
     public void testAddSignature() throws ActionException {
@@ -24,18 +27,18 @@ public class TestFractionEditor {
 
     @Test
     public void testAddNull() throws DataException {
-        assertEquals(editor.addNull("4/6"), "4/60");
-        assertEquals(editor.addNull("-4/6"), "-4/60");
-        assertEquals(editor.addNull("4/"), "4/0");
-        assertEquals(editor.addNull("4"), "40");
+        assertEquals(editor.addNull("4/6", v), "4/60");
+        assertEquals(editor.addNull("-4/6", v), "-4/60");
+        assertEquals(editor.addNull("4/", v), "4/0");
+        assertEquals(editor.addNull("4", v), "40");
     }
 
     @Test
     public void testAddNullException() {
-        assertThrows(DataException.class, () -> editor.addNull("4/6/3"));
-        assertThrows(DataException.class, () -> editor.addNull("4.3/6"));
-        assertThrows(DataException.class, () -> editor.addNull("4/b"));
-        assertThrows(DataException.class, () -> editor.addNull("b/4"));
+        assertThrows(DataException.class, () -> editor.addNull("4/6/3", v));
+        assertThrows(DataException.class, () -> editor.addNull("4.3/6", v));
+        assertThrows(DataException.class, () -> editor.addNull("4/b", v));
+        assertThrows(DataException.class, () -> editor.addNull("b/4", v));
     }
 
     @Test

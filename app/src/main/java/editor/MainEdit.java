@@ -19,7 +19,8 @@ public class MainEdit {
                 System.out.println("Input a complex like a,i*b ");
                 String input = complexScanner.nextLine();
                 ComplexEditor e = new ComplexEditor();
-                input = e.editor(input);
+                Validator v = new Validator();
+                input = e.editor(input, v);
                 System.out.println("Your complex " + new Complex(input));
 
             }
@@ -29,7 +30,8 @@ public class MainEdit {
                 System.out.println("Input fraction\n");
                 String input = fractionScanner.nextLine();
                 FractionEditor e = new FractionEditor();
-                input = e.editor(input);
+                Validator v = new Validator();
+                input = e.editor(input, v);
                 System.out.println("Your fraction " + new Fraction(input));
             }
 
@@ -43,7 +45,8 @@ public class MainEdit {
                 int b = TPNumberScannerB.nextInt();
                 int c = TPNumberScannerC.nextInt();
                 TPNumberEditor e = new TPNumberEditor();
-                a = e.editor(a, b, c);
+                Validator v = new Validator(b, c);
+                a = e.editor(a, v);
                 System.out.println("Your TPNumber " + new TPNumber(a, b, c));
             }
         }

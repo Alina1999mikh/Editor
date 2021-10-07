@@ -1,4 +1,5 @@
 import editor.TPNumberEditor;
+import editor.Validator;
 import exeption.ActionException;
 import exeption.DataException;
 import org.junit.jupiter.api.Test;
@@ -21,15 +22,16 @@ public class TestTPNumberEditor {
 
     @Test
     public void testAddNull() throws DataException {
-        assertEquals(editor.addNull("4.6", 16, 4), "4.60");
-        assertEquals(editor.addNull("-4.6", 16, 4), "-4.60");
-        assertEquals(editor.addNull("4.", 16, 4), "4.0");
-        assertEquals(editor.addNull("4", 16, 4), "40");
+        Validator v = new Validator(16, 4);
+        assertEquals(editor.addNull("4.6", v), "4.60");
+        assertEquals(editor.addNull("-4.6", v), "-4.60");
+        assertEquals(editor.addNull("4.", v), "4.0");
+        assertEquals(editor.addNull("4", v), "40");
     }
 
     @Test
     public void testAddNullException() {
-        assertThrows(DataException.class, () -> editor.addNull("4.6.3"));
+        assertThrows(DataException.class, () -> editor.addNull("4.6.3", new Validator(16, 4)));
     }
 
     @Test
@@ -59,8 +61,9 @@ public class TestTPNumberEditor {
 
     @Test
     public void testAddNumber() throws DataException {
-        assertEquals(editor.addNumber("4.A6", 16, 4, "5"), "4.A65");
-        assertEquals(editor.addNumber("4.", 16, 4, "5"), "4.5");
-        assertThrows(DataException.class, () -> editor.addNumber("4.A", 10, 4, "B"));
+        Validator v = new Validator(16, 4);
+        assertEquals(editor.addNumber("4.A6", "5", v), "4.A65");
+        assertEquals(editor.addNumber("4.", "5", v), "4.5");
+        assertThrows(DataException.class, () -> editor.addNumber("4.A", "B", new Validator(9, 4)));
     }
 }

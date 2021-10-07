@@ -1,7 +1,6 @@
 package editor;
 
 import exeption.ActionException;
-import model.TPNumber.TPNumber;
 
 public class TPNumberEditor extends AbstractEditor {
     private static final String SEPARATOR = "\\.";
@@ -22,13 +21,8 @@ public class TPNumberEditor extends AbstractEditor {
     }
 
     @Override
-    protected boolean isValid(String s) {
-        return false;
-    }
-
-    @Override
-    protected boolean isValid(String s, int b, int c) {
-        return TPNumber.isValid(s, b, c);
+    protected boolean isValid(String s, Validator v) {
+        return v.isValidTPNumber(s);
     }
 
     @Override

@@ -1,4 +1,5 @@
 import editor.ComplexEditor;
+import editor.Validator;
 import exeption.ActionException;
 import exeption.DataException;
 import model.Complex;
@@ -11,6 +12,7 @@ public class TestComplexEditor {
 
     ComplexEditor editor = new ComplexEditor();
     String NULL = "0,ix0";
+    Validator v = new Validator();
 
     public TestComplexEditor() {
     }
@@ -39,12 +41,12 @@ public class TestComplexEditor {
 
     @Test
     public void testAddNumber() throws DataException {
-        assertEquals(editor.addNumber("4,ix6", "5"), "4,ix65");
+        assertEquals(editor.addNumber("4,ix6", "5", v), "4,ix65");
     }
 
     @Test
     public void testAddNull() throws DataException {
-        assertEquals(editor.addNull("4,ix6"), "4,ix60");
+        assertEquals(editor.addNull("4,ix6", v), "4,ix60");
     }
 
     @Test

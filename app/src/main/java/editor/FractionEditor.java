@@ -5,7 +5,7 @@ import model.Fraction;
 
 public class FractionEditor extends AbstractEditor {
 
-    private final static String SEPARATOR = "/";
+    public final static String SEPARATOR = "/";
     private final static String NULL = "0/1";
 
     public FractionEditor() {
@@ -23,29 +23,8 @@ public class FractionEditor extends AbstractEditor {
     }
 
     @Override
-    protected boolean isValid(String s) {
-        try {
-            String[] mass = s.split(SEPARATOR);
-            if (mass.length > 2) return false;
-            for (String value : mass) {
-                char[] c = value.toCharArray();
-                for (int i = 0; i < c.length; i++) {
-                    try {
-                        Integer.parseInt(String.valueOf(c[i]));
-                    } catch (NumberFormatException e) {
-                        return i == 0 && c[i] == '-';
-                    }
-                }
-            }
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    @Override
-    protected boolean isValid(String s, int b, int c) {
-        return isValid(s);
+    protected boolean isValid(String s, Validator v) {
+        return Validator.isValidFraction(s);
     }
 
     @Override

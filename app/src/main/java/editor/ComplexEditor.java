@@ -31,13 +31,8 @@ public class ComplexEditor extends AbstractEditor {
     }
 
     @Override
-    protected boolean isValid(String s) {
-        return true;
-    }
-
-    @Override
-    protected boolean isValid(String s, int b, int c) {
-        return isValid(s);
+    protected boolean isValid(String s, Validator v) {
+        return Validator.isValidComplex(s);
     }
 
     @Override
