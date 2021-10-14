@@ -6,11 +6,10 @@ import model.TPNumber.TPNumber;
 import model.TPNumber.TPNumberAlphabets;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class TPNumberMath extends AbstractMath<TPNumber> {
+public class TPNumberMath implements AbstractMath<TPNumber> {
     TPNumber a;
 
     public TPNumberMath(TPNumber a) {
@@ -23,11 +22,6 @@ public class TPNumberMath extends AbstractMath<TPNumber> {
         if (isValid(this.a, b)) {
             return (new TPNumber(doScaleNotation(String.valueOf(toDecimal(a) + toDecimal(b)), a.getB(), a.getC()), a.getB(), a.getC()));
         } else throw new ActionException();
-    }
-
-    @Override
-    public TPNumber getNull() throws DataException {
-        return new TPNumber(TPNumber.NULL, 10, 0);
     }
 
     public static TPNumber multiplication(TPNumber a, TPNumber b) throws ActionException, DataException {
@@ -71,8 +65,6 @@ public class TPNumberMath extends AbstractMath<TPNumber> {
 
     private static String doScaleNotation(String a, int b, int c) {
         String[] s = a.split("\\.");
-        System.out.println("a= " + a);
-        System.out.println("s= " + Arrays.toString(s));
 
         String a1 = doBeforeSeparation(Long.parseLong(s[0]), b);
         if (s.length == 2) {

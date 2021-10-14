@@ -4,10 +4,11 @@ import exeption.ActionException;
 import exeption.DataException;
 import model.Fraction;
 
-public class FractionMath extends AbstractMath<Fraction> {
+public class FractionMath extends Fraction implements AbstractMath<Fraction> {
     Fraction a;
 
-    public FractionMath(Fraction a) {
+    public FractionMath(Fraction a) throws DataException {
+        super(a);
         this.a = a;
     }
 
@@ -22,10 +23,5 @@ public class FractionMath extends AbstractMath<Fraction> {
             a += f2.getA() * f.b;
             return new Fraction(a, b);
         }
-    }
-
-    @Override
-    public Fraction getNull() throws DataException {
-        return new Fraction(Fraction.NULL);
     }
 }

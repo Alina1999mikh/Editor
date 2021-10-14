@@ -4,7 +4,7 @@ import exeption.DataException;
 import lombok.Data;
 
 @Data
-public class Complex {
+public class Complex implements Model {
     public String complex;
 
     public static final String FRACTIONAL_SEPARATOR = ".";
@@ -16,6 +16,17 @@ public class Complex {
             complex = s;
         }
     }
+
+    public Complex() {
+        complex = NULL;
+    }
+
+    public Complex(Complex s) throws DataException {
+        if (checkCorrectInput(s.getComplex())) {
+            complex = s.getComplex();
+        }
+    }
+
 
     public Complex(int a, int b) throws DataException {
         String tmp = a + Z_SEPARATOR + b;
@@ -62,5 +73,14 @@ public class Complex {
 
     public int getImaginaryPart() {
         return Integer.parseInt(complex.split(Z_SEPARATOR)[1]);
+    }
+
+    @Override
+    public String toString() {
+        return complex;
+    }
+
+    public static Complex getNULL() throws DataException {
+        return new Complex(NULL);
     }
 }

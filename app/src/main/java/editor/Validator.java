@@ -1,5 +1,6 @@
 package editor;
 
+import model.Fraction;
 import model.TPNumber.TPNumber;
 
 public class Validator {
@@ -16,7 +17,7 @@ public class Validator {
 
     public static boolean isValidFraction(String s) {
         try {
-            String[] mass = s.split(FractionEditor.SEPARATOR);
+            String[] mass = s.split(Fraction.SEPARATOR);
             if (mass.length > 2) return false;
             for (String value : mass) {
                 char[] c = value.toCharArray();

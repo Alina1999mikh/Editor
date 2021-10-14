@@ -4,21 +4,17 @@ import exeption.ActionException;
 import exeption.DataException;
 import model.Complex;
 
-public class ComplexMath extends AbstractMath<Complex> {
+public class ComplexMath extends Complex implements AbstractMath<Complex> {
     Complex a;
 
-    ComplexMath(Complex a) {
+    public ComplexMath(Complex a) throws DataException {
+        super(a);
         this.a = a;
     }
 
     @Override
-    public Complex add(Complex f2) throws ActionException, DataException {
+    public Complex add(Complex b) throws ActionException, DataException {
         Complex f = a;
-        return new Complex(f.getWholePart() + f2.getWholePart(), f.getImaginaryPart() + f2.getImaginaryPart());
-    }
-
-    @Override
-    public Complex getNull() throws DataException {
-        return new Complex(Complex.NULL);
+        return new Complex(f.getWholePart() + b.getWholePart(), f.getImaginaryPart() + b.getImaginaryPart());
     }
 }

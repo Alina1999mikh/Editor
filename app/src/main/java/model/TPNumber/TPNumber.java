@@ -2,12 +2,13 @@ package model.TPNumber;
 
 import exeption.DataException;
 import lombok.Data;
+import model.Model;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 @Data
-public class TPNumber {
+public class TPNumber implements Model {
     public static final String SEPARATOR = "\\.";
     public final static String NULL = "0";
     String n;
@@ -26,6 +27,12 @@ public class TPNumber {
         this.c = c;
         if (!isValid(n, b, c)) throw new DataException();
         alphabet = TPNumberAlphabets.getAlphabet(b);
+    }
+
+    public TPNumber() {
+        this.n = NULL;
+        this.b = 10;
+        this.c = 0;
     }
 
     public TPNumber copy() throws DataException {
@@ -115,4 +122,12 @@ public class TPNumber {
     public int hashCode() {
         return Objects.hash(n, b, c);
     }
+
+    public static TPNumber getNULL() throws DataException {
+        return new TPNumber(NULL, 10, 0);
+    }
+//
+//    public static TPNumber getNULL() throws DataException {
+//        return new TPNumber(NULL, 10, 0);
+//    }
 }

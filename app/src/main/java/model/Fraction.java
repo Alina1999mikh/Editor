@@ -4,7 +4,7 @@ import exeption.DataException;
 import lombok.Data;
 
 @Data
-public class Fraction {
+public class Fraction implements Model {
     public int a;
     public int b;
     public final static String SEPARATOR = "/";
@@ -18,14 +18,26 @@ public class Fraction {
         simplify();
     }
 
+    public Fraction() throws DataException {
+        doFractionFromString(NULL);
+    }
+
+    public Fraction(Fraction f) throws DataException {
+        doFractionFromString(f.getA() + SEPARATOR + f.b);
+    }
+
     private void checkDeterminate(int b) throws DataException {
         if (b == 0) {
             throw new DataException("Denominator cannot be 0");
         }
     }
 
-    public Fraction(String f) throws DataException {
-        String[] fraction = f.split("/");
+    public Fraction(String s) throws DataException {
+        doFractionFromString(s);
+    }
+
+    private void doFractionFromString(String s) throws DataException {
+        String[] fraction = s.split("/");
         if (fraction.length > 2) {
             throw new DataException("Invalid input");
         } else {
@@ -59,5 +71,9 @@ public class Fraction {
     @Override
     public String toString() {
         return a + "/" + b;
+    }
+
+    public static Fraction getNULL() throws DataException {
+        return new Fraction(NULL);
     }
 }
