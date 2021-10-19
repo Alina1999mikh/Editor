@@ -33,18 +33,9 @@ public class TMemory<M extends Model, T extends AbstractMath<M>> {
         this.FState = false;
     }
 
-    @Override
-    public String toString() {
-        return "TMemory{\n" +
-                "fNumber=" + fNumber +
-                ",\nFState=" + FState +
-                '}';
-    }
-
     public T getfNumber() {
         return fNumber;
     }
-
     public boolean isFState() {
         return FState;
     }
