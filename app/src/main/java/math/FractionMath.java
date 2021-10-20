@@ -24,4 +24,23 @@ public class FractionMath extends Fraction implements AbstractMath<Fraction> {
             return new Fraction(a, b);
         }
     }
+
+    @Override
+    public Fraction subtraction(Fraction f2) throws DataException, ActionException {
+        return add(new Fraction(f2.getA() * (-1), f2.getB()));
+    }
+
+    @Override
+    public Fraction multiplication(Fraction f2) throws DataException {
+        return new Fraction(super.a * f2.getA(), super.b * f2.getB());
+    }
+
+    @Override
+    public Fraction division(Fraction f2) throws DataException {
+        return new Fraction(super.a * f2.getB(), super.b * f2.getA());
+    }
+
+    public Fraction square() throws DataException {
+        return new Fraction(super.a * super.a, super.b);
+    }
 }

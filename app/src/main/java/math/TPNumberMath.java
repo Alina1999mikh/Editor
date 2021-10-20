@@ -24,13 +24,15 @@ public class TPNumberMath implements AbstractMath<TPNumber> {
         } else throw new ActionException();
     }
 
-    public static TPNumber multiplication(TPNumber a, TPNumber b) throws ActionException, DataException {
+    @Override
+    public TPNumber multiplication(TPNumber b) throws DataException, ActionException {
         if (isValid(a, b)) {
             return (new TPNumber(doScaleNotation(String.valueOf(toDecimal(a) * toDecimal(b)), a.getB(), a.getC()), a.getB(), a.getC()));
         } else throw new ActionException();
     }
 
-    public static TPNumber subtraction(TPNumber a, TPNumber b) throws ActionException, DataException {
+    @Override
+    public TPNumber subtraction(TPNumber b) throws ActionException, DataException {
         if (isValid(a, b)) {
             Double decimalA = toDecimal(a);
             Double decimalB = toDecimal(b);
@@ -42,8 +44,9 @@ public class TPNumberMath implements AbstractMath<TPNumber> {
         } else throw new ActionException();
     }
 
-    public static TPNumber division(TPNumber a, TPNumber b) throws DataException {
-        Double decimalA = toDecimal(a);
+    @Override
+    public TPNumber division(TPNumber b) throws DataException {
+        Double decimalA = toDecimal(this.a);
         Double decimalB = toDecimal(b);
         if (decimalB == 0) throw new DataException("zero division");
         else {
@@ -51,12 +54,13 @@ public class TPNumberMath implements AbstractMath<TPNumber> {
         }
     }
 
-    public static TPNumber square(TPNumber a) throws DataException, ActionException {
-        return multiplication(a, a);
+    public TPNumber square() throws DataException, ActionException {
+        return multiplication(a);
     }
 
-    public static TPNumber inverse(TPNumber a) throws DataException {
-        return division(new TPNumber("1", a.getB(), a.getC()), a);
+    public TPNumber inverse() throws DataException {
+        TPNumberMath one = new TPNumberMath(new TPNumber("1", a.getB(), a.getC()));
+        return one.division(this.a);
     }
 
     private static boolean isValid(TPNumber a, TPNumber b) {

@@ -17,4 +17,25 @@ public class ComplexMath extends Complex implements AbstractMath<Complex> {
         Complex f = a;
         return new Complex(f.getWholePart() + b.getWholePart(), f.getImaginaryPart() + b.getImaginaryPart());
     }
+
+    @Override
+    public Complex subtraction(Complex f2) throws DataException, ActionException {
+        return add(new Complex(f2.getWholePart() * (-1), f2.getImaginaryPart() * (-1)));
+    }
+
+    @Override
+    public Complex multiplication(Complex f2) throws DataException {
+        return new Complex(this.a.getWholePart() * f2.getWholePart() - this.a.getImaginaryPart() * f2.getImaginaryPart(), this.a.getWholePart() * f2.getImaginaryPart() + f2.getWholePart() * this.a.getImaginaryPart());
+    }
+
+    @Override
+    public Complex division(Complex f2) throws DataException {
+        double znam = f2.getWholePart() * f2.getWholePart() + f2.getImaginaryPart() * f2.getImaginaryPart();
+        double p1 = this.a.getWholePart() * f2.getWholePart() + this.a.getImaginaryPart() * f2.getImaginaryPart();
+        p1 /= znam;
+        double p2 = this.a.getImaginaryPart() * f2.getWholePart() - this.a.getWholePart() * f2.getImaginaryPart();
+        p2 /= znam;
+        return new Complex(p1, p2);
+    }
+
 }

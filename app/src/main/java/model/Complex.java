@@ -35,6 +35,13 @@ public class Complex implements Model {
         }
     }
 
+    public Complex(double a, double b) throws DataException {
+        String tmp = a + Z_SEPARATOR + b;
+        if (checkCorrectInput(tmp)) {
+            complex = tmp;
+        }
+    }
+
     private boolean checkCorrectInput(String s) throws DataException {
         if (s.split(Z_SEPARATOR).length > 2 || (s.split("i").length > 2 ||
                 s.split("x").length > 2) || s.split(",").length > 2 || !isNumber(s))
