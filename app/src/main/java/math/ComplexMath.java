@@ -38,4 +38,23 @@ public class ComplexMath extends Complex implements AbstractMath<Complex> {
         return new Complex(p1, p2);
     }
 
+    @Override
+    public Complex square() throws DataException, ActionException {
+        return multiplication(a);
+    }
+
+    @Override
+    public Complex getModel() {
+        return a;
+    }
+
+    @Override
+    public Complex inverse() throws DataException {
+        return new Complex(a.getImaginaryPart(), a.getWholePart());
+    }
+
+    @Override
+    public ComplexMath toMath() throws DataException {
+        return new ComplexMath(a);
+    }
 }

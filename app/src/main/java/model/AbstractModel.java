@@ -1,5 +1,5 @@
 package model;
 
-public abstract class AbstractModel {
-
+public abstract class AbstractModel<T> {
+    abstract public T toMath();
 }

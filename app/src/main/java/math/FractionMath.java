@@ -41,6 +41,21 @@ public class FractionMath extends Fraction implements AbstractMath<Fraction> {
     }
 
     public Fraction square() throws DataException {
-        return new Fraction(super.a * super.a, super.b);
+        return new Fraction(multiplication(a));
+    }
+
+    @Override
+    public Fraction inverse() throws DataException {
+        return new Fraction(a.getB(), a.getA());
+    }
+
+    @Override
+    public Fraction getModel() {
+        return a;
+    }
+
+    @Override
+    public FractionMath toMath() throws DataException {
+        return new FractionMath(a);
     }
 }

@@ -13,4 +13,9 @@ public interface AbstractMath<T extends Model> {
 
     T division(T b) throws DataException;
 
+    T square() throws DataException, ActionException;
+
+    T getModel();
+
+    T inverse() throws DataException;
 }

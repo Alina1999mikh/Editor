@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TPNumberMath implements AbstractMath<TPNumber> {
+public class TPNumberMath extends TPNumber implements AbstractMath<TPNumber> {
     TPNumber a;
 
     public TPNumberMath(TPNumber a) {
@@ -54,10 +54,17 @@ public class TPNumberMath implements AbstractMath<TPNumber> {
         }
     }
 
+    @Override
     public TPNumber square() throws DataException, ActionException {
         return multiplication(a);
     }
 
+    @Override
+    public TPNumber getModel() {
+        return a;
+    }
+
+    @Override
     public TPNumber inverse() throws DataException {
         TPNumberMath one = new TPNumberMath(new TPNumber("1", a.getB(), a.getC()));
         return one.division(this.a);
@@ -140,5 +147,10 @@ public class TPNumberMath implements AbstractMath<TPNumber> {
             } else break;
         }
         return res.toString();
+    }
+
+    @Override
+    public TPNumberMath toMath() {
+        return new TPNumberMath(a);
     }
 }

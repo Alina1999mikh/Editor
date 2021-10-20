@@ -2,6 +2,7 @@ package model;
 
 import exeption.DataException;
 import lombok.Data;
+import math.ComplexMath;
 
 @Data
 public class Complex implements Model {
@@ -89,5 +90,10 @@ public class Complex implements Model {
 
     public static Complex getNULL() throws DataException {
         return new Complex(NULL);
+    }
+
+    @Override
+    public ComplexMath toMath() throws DataException {
+        return new ComplexMath(this);
     }
 }

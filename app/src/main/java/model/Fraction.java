@@ -2,6 +2,7 @@ package model;
 
 import exeption.DataException;
 import lombok.Data;
+import math.FractionMath;
 
 @Data
 public class Fraction implements Model {
@@ -73,7 +74,16 @@ public class Fraction implements Model {
         return a + "/" + b;
     }
 
+    public Fraction getFraction() throws DataException {
+        return new Fraction(this.toString());
+    }
+
     public static Fraction getNULL() throws DataException {
         return new Fraction(NULL);
+    }
+
+    @Override
+    public FractionMath toMath() throws DataException {
+        return new FractionMath(this);
     }
 }

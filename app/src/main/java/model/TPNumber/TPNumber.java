@@ -2,6 +2,7 @@ package model.TPNumber;
 
 import exeption.DataException;
 import lombok.Data;
+import math.TPNumberMath;
 import model.Model;
 
 import java.util.Arrays;
@@ -125,6 +126,11 @@ public class TPNumber implements Model {
 
     public static TPNumber getNULL() throws DataException {
         return new TPNumber(NULL, 10, 0);
+    }
+
+    @Override
+    public TPNumberMath toMath() throws DataException {
+        return new TPNumberMath(this);
     }
 //
 //    public static TPNumber getNULL() throws DataException {
