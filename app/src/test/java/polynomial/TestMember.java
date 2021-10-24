@@ -4,19 +4,24 @@ import exeption.ActionException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TestMember {
     @Test
-    public void testDeferential() throws ActionException {
+    public void testDeferential() {
         assertEquals(new Member(4, 5).deferential(), new Member(20, 4));
-        assertEquals(new Member(3.8, 4.6).deferential(), new Member(17.48, 3.6));
-        assertEquals(new Member(-3.8, 4.6).deferential(), new Member(-17.48, 3.6));
-        assertEquals(new Member(3.8, -4.6).deferential(), new Member(-17.48, -5.6));
     }
 
     @Test
-    public void testCalculate() throws ActionException {
+    public void testCalculate() {
         assertEquals(new Member(4, 5).calculate(2), 128);
-        assertEquals(new Member(2.4, 1.6).calculate(3), 13.918910723508693);
+    }
+
+    @Test
+    public void testMathOperations() throws ActionException {
+        assertEquals(new Member(4, 5).summarize(new Member(2, 5)), new Member(6, 5));
+        assertEquals(new Member(4, 5).subscription(new Member(3, 5)), new Member(1, 5));
+        assertEquals(new Member(3, 2).multiplication(new Member(4, 3)), new Member(12, 5));
+        assertThrows(ActionException.class, () -> new Member(4, 5).summarize(new Member(2, 3)));
     }
 }
