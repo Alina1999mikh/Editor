@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Data
-public class TPNumber implements Model {
+public class TPNumber implements Model<TPNumber, TPNumberMath> {
     public static final String SEPARATOR = "\\.";
     public final static String NULL = "0";
     String n;
@@ -40,6 +40,16 @@ public class TPNumber implements Model {
         return new TPNumber(n, b, c);
     }
 
+    @Override
+    public boolean isNULL() {
+        return n.equals(NULL);
+    }
+
+    @Override
+    public TPNumberMath toMath() {
+        return new TPNumberMath();
+    }
+
     public static boolean isValid(String n, int b, int c) {
         return (b >= 2 && b <= 16 && c >= 0) && isValidN(n, b);
     }
@@ -62,6 +72,12 @@ public class TPNumber implements Model {
             }
         }
         return true;
+    }
+
+    public String getMinus() {
+        if (n.toCharArray()[0] == '-') {
+            return n.substring(1);
+        } else return "-" + n;
     }
 
     public String getTPNumber() {
@@ -127,13 +143,4 @@ public class TPNumber implements Model {
     public static TPNumber getNULL() throws DataException {
         return new TPNumber(NULL, 10, 0);
     }
-
-    @Override
-    public TPNumberMath toMath() throws DataException {
-        return new TPNumberMath(this);
-    }
-//
-//    public static TPNumber getNULL() throws DataException {
-//        return new TPNumber(NULL, 10, 0);
-//    }
 }

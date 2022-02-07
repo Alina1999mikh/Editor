@@ -97,7 +97,7 @@ public class TPoly {
         return new TPoly(rez);
     }
 
-    //TODO
+    //
     public TPoly multiplication(TPoly poly) throws ActionException {
         ArrayList<Member> rez = new ArrayList<>();
         for (Member m1 : poly.getList()) {

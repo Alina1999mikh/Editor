@@ -1,12 +1,10 @@
 package processor;
 
-import exeption.ActionException;
-import exeption.DataException;
 import lombok.Data;
-import math.AbstractMath;
+import math.InterfaceMath;
 
 @Data
-public class TProc<T extends AbstractMath> {
+public class TProc<T extends InterfaceMath> {
 
     T lopRes;
     T rop;
@@ -31,17 +29,5 @@ public class TProc<T extends AbstractMath> {
 
     public void resetOperation() {
         operation = Operation.NONE;
-    }
-
-    public void TOperation() throws DataException, ActionException {
-        switch (operation) {
-            case add -> lopRes = (T) lopRes.add(rop.getModel()).toMath();
-            case division -> lopRes = (T) lopRes.division(rop.getModel()).toMath();
-            case multiplication -> lopRes = (T) lopRes.multiplication(rop.getModel()).toMath();
-            case square -> rop = (T) rop.square().toMath();
-            case inverse -> rop = (T) rop.inverse().toMath();
-            case NONE -> System.out.println("NONE operation");
-            default -> throw new DataException("Invalid operation");
-        }
     }
 }

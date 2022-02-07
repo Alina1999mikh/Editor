@@ -9,44 +9,45 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TPNumberMath extends TPNumber implements AbstractMath<TPNumber> {
-    TPNumber a;
-
-    public TPNumberMath(TPNumber a) {
-        this.a = a;
-    }
+public class TPNumberMath extends TPNumber implements InterfaceMath<TPNumber> {
 
     @Override
-    public TPNumber add(TPNumber b) throws ActionException, DataException {
-        TPNumber a = this.a;
-        if (isValid(this.a, b)) {
+    public TPNumber add(TPNumber a, TPNumber b) throws ActionException, DataException {
+        if (isValid(a, b)) {
             return (new TPNumber(doScaleNotation(String.valueOf(toDecimal(a) + toDecimal(b)), a.getB(), a.getC()), a.getB(), a.getC()));
         } else throw new ActionException();
     }
 
     @Override
-    public TPNumber multiplication(TPNumber b) throws DataException, ActionException {
+    public TPNumber multiplication(TPNumber a, TPNumber b) throws DataException, ActionException {
         if (isValid(a, b)) {
             return (new TPNumber(doScaleNotation(String.valueOf(toDecimal(a) * toDecimal(b)), a.getB(), a.getC()), a.getB(), a.getC()));
         } else throw new ActionException();
     }
 
     @Override
-    public TPNumber subtraction(TPNumber b) throws ActionException, DataException {
-        if (isValid(a, b)) {
-            Double decimalA = toDecimal(a);
-            Double decimalB = toDecimal(b);
-            if (decimalA > decimalB)
-                return new TPNumber(doScaleNotation(String.valueOf(decimalA - decimalB), a.getB(), a.getC()), a.getB(), a.getC());
-            else
-                return new TPNumber("-" + doScaleNotation(String.valueOf(decimalB - decimalA), a.getB(), a.getC()), a.getB(), a.getC());
-
-        } else throw new ActionException();
+    public TPNumber subtraction(TPNumber a, TPNumber b) throws ActionException, DataException {
+        TPNumber bMinis = b.copy();
+        bMinis.setN(b.getMinus());
+        return add(a, bMinis);
+//        if (isValid(a, b)) {
+//            Double decimalA;
+//            Double decimalB;
+//            if (a.getB() != 10) decimalA = toDecimal(a);
+//             else decimalA = Double.parseDouble(a.getN());
+//            if (b.getB() != 10) decimalB = toDecimal(b);
+//             else decimalB = Double.parseDouble(b.getN());
+//             System.out.println("A= "+decimalA+" b = "+ decimalB);
+//            if (decimalA > decimalB)
+//                return new TPNumber(doScaleNotation(String.valueOf(decimalA - decimalB), a.getB(), a.getC()), a.getB(), a.getC());
+//            else
+//                return new TPNumber("-" + doScaleNotation(String.valueOf(decimalB - decimalA), a.getB(), a.getC()), a.getB(), a.getC());
+//        } else throw new ActionException();
     }
 
     @Override
-    public TPNumber division(TPNumber b) throws DataException {
-        Double decimalA = toDecimal(this.a);
+    public TPNumber division(TPNumber a, TPNumber b) throws DataException {
+        Double decimalA = toDecimal(a);
         Double decimalB = toDecimal(b);
         if (decimalB == 0) throw new DataException("zero division");
         else {
@@ -55,19 +56,14 @@ public class TPNumberMath extends TPNumber implements AbstractMath<TPNumber> {
     }
 
     @Override
-    public TPNumber square() throws DataException, ActionException {
-        return multiplication(a);
+    public TPNumber square(TPNumber a) throws DataException, ActionException {
+        return multiplication(a, a);
     }
 
     @Override
-    public TPNumber getModel() {
-        return a;
-    }
-
-    @Override
-    public TPNumber inverse() throws DataException {
-        TPNumberMath one = new TPNumberMath(new TPNumber("1", a.getB(), a.getC()));
-        return one.division(this.a);
+    public TPNumber inverse(TPNumber a) throws DataException {
+        TPNumber one = new TPNumber("1", a.getB(), a.getC());
+        return division(one, a);
     }
 
     private static boolean isValid(TPNumber a, TPNumber b) {
@@ -75,25 +71,35 @@ public class TPNumberMath extends TPNumber implements AbstractMath<TPNumber> {
     }
 
     private static String doScaleNotation(String a, int b, int c) {
-        String[] s = a.split("\\.");
+        if (b == 10) {
+            return a;
+        } else {
+            String[] s = a.split("\\.");
 
-        String a1 = doBeforeSeparation(Long.parseLong(s[0]), b);
-        if (s.length == 2) {
-            String a2 = doAfterSeparation(Double.parseDouble("0." + s[1]), b, c);
-            return a1 + "." + a2;
-        } else return a1;
+            String a1 = doBeforeSeparation(Long.parseLong(s[0]), b);
+            if (s.length == 2) {
+                String a2 = doAfterSeparation(Double.parseDouble("0." + s[1]), b, c);
+                return a1 + "." + a2;
+            } else return a1;
+        }
     }
 
     private static String doBeforeSeparation(long a, int b) {
-        ArrayList<String> list = new ArrayList<>();
-
-        if (a == 0) addToList(list, 0, b);
-        else while (a != 0) {
-            addToList(list, (int) (a % b), b);
-            a = a / b;
+        boolean sign = true;
+        if (a < 0) {
+            sign = false;
+            a = Math.abs(a);
         }
+        ArrayList<String> list = new ArrayList<>();
+        if (a == 0) addToList(list, 0, b);
+        else
+            while (a != 0) {
+                addToList(list, (int) (a % b), b);
+                a = a / b;
+            }
         Collections.reverse(list);
-        return listToString(list);
+        if (!sign) return "-" + beforeSeparationToString(list);
+        else return beforeSeparationToString(list);
     }
 
     private static void addToList(ArrayList<String> list, int add, int b) {
@@ -112,33 +118,43 @@ public class TPNumberMath extends TPNumber implements AbstractMath<TPNumber> {
                 break;
             }
         }
-        return listToString(list);
+        return afterSeparationToString(list);
     }
 
     private static Double toDecimal(TPNumber t) throws DataException {
-        String s = t.getN();
-        String digits = String.valueOf(TPNumberAlphabets.getAlphabet(t.getB()));
-        s = s.toUpperCase();
-        String[] part = s.split("\\.");
-        double val = 0;
-        if (part.length == 2) {
-            String partAll = part[0] + part[1];
-            for (int i = part[0].length() - 1, j = 0; i >= part[1].length() * (-1); i--, j++) {
-                int d = digits.indexOf(partAll.charAt(j));
-                val = val + d * Math.pow(t.getB(), i);
+        if (t.getB() == 10) return Double.valueOf(t.getN());
+
+        else {
+            boolean sign = true; // +
+            String s = t.getN();
+            if (s.toCharArray()[0] == '-') {
+                sign = false;
+                s = s.substring(1);
             }
-        } else {
-            if (part.length == 1) {
-                for (int i = part[0].length() - 1, j = 0; i >= 0; i--, j++) {
-                    int d = digits.indexOf(part[0].charAt(j));
+            String digits = String.valueOf(TPNumberAlphabets.getAlphabet(t.getB()));
+            s = s.toUpperCase();
+            String[] part = s.split("\\.");
+            double val = 0;
+            if (part.length == 2) {
+                String partAll = part[0] + part[1];
+                for (int i = part[0].length() - 1, j = 0; i >= part[1].length() * (-1); i--, j++) {
+                    int d = digits.indexOf(partAll.charAt(j));
                     val = val + d * Math.pow(t.getB(), i);
                 }
-            } else throw new DataException();
+            } else {
+                if (part.length == 1) {
+                    for (int i = part[0].length() - 1, j = 0; i >= 0; i--, j++) {
+                        int d = digits.indexOf(part[0].charAt(j));
+                        val = val + d * Math.pow(t.getB(), i);
+                    }
+                } else throw new DataException();
+            }
+            if (sign) return val;
+            else return Double.valueOf("-" + val);
         }
-        return val;
     }
 
-    private static String listToString(List<String> list) {
+    private static String afterSeparationToString(List<String> list) {
         StringBuilder res = new StringBuilder();
         for (String s : list) res.append(s);
         for (int i = res.length() - 1; i >= 0; i--) {
@@ -149,8 +165,9 @@ public class TPNumberMath extends TPNumber implements AbstractMath<TPNumber> {
         return res.toString();
     }
 
-    @Override
-    public TPNumberMath toMath() {
-        return new TPNumberMath(a);
+    private static String beforeSeparationToString(List<String> list) {
+        StringBuilder res = new StringBuilder();
+        for (String s : list) res.append(s);
+        return res.toString();
     }
 }

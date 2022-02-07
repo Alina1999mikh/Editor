@@ -5,11 +5,20 @@ import lombok.Data;
 import math.FractionMath;
 
 @Data
-public class Fraction implements Model {
+public class Fraction implements Model<Fraction, FractionMath> {
     public int a;
     public int b;
     public final static String SEPARATOR = "/";
     public final static String NULL = "0/1";
+
+    public boolean isNULL() {
+        return a == 0;
+    }
+
+    @Override
+    public FractionMath toMath() throws DataException {
+        return new FractionMath();
+    }
 
     public Fraction(int a, int b) throws DataException {
         checkDeterminate(b);
@@ -58,14 +67,21 @@ public class Fraction implements Model {
     }
 
     private void simplify() {
-        long limit = Math.min(this.a, this.b);
-
+        boolean sign = true;
+        int a = this.a;
+        if (a < 0) {
+            sign = false;
+            a = Math.abs(a);
+        }
+        long limit = Math.min(a, this.b);
         for (long i = 2; i <= limit; i++) {
-            if (this.a % i == 0 && this.b % i == 0) {
-                this.a /= i;
-                this.b /= i;
+            if (a % i == 0 && this.b % i == 0) {
+                a /= i;
+                b /= i;
             }
         }
+        if (!sign) this.a = a * (-1);
+        else this.a = a;
         if (this.a == 0) this.b = 1;
     }
 
@@ -83,7 +99,7 @@ public class Fraction implements Model {
     }
 
     @Override
-    public FractionMath toMath() throws DataException {
-        return new FractionMath(this);
+    public Fraction copy() {
+        return this;
     }
 }

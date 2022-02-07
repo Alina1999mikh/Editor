@@ -5,7 +5,7 @@ import lombok.Data;
 import math.ComplexMath;
 
 @Data
-public class Complex implements Model {
+public class Complex implements Model<Complex, ComplexMath> {
     public String complex;
 
     public static final String FRACTIONAL_SEPARATOR = ".";
@@ -92,8 +92,17 @@ public class Complex implements Model {
         return new Complex(NULL);
     }
 
+    public boolean isNULL() {
+        return complex.equals(NULL);
+    }
+
     @Override
-    public ComplexMath toMath() throws DataException {
-        return new ComplexMath(this);
+    public ComplexMath toMath() {
+        return new ComplexMath();
+    }
+
+    @Override
+    public Complex copy() {
+        return this;
     }
 }

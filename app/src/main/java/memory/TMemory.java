@@ -3,11 +3,12 @@ package memory;
 import exeption.ActionException;
 import exeption.DataException;
 import lombok.Data;
-import math.AbstractMath;
+import math.InterfaceMath;
 import model.Model;
 
 @Data
-public class TMemory<M extends Model, T extends AbstractMath<M>> {
+public class TMemory<M extends Model<M, T>, T extends InterfaceMath<M>> {
+    //public class TMemory<M extends Model, T extends InterfaceMath<M>> {
     T fNumber;
     private final T NULL;
     boolean FState;
@@ -25,7 +26,7 @@ public class TMemory<M extends Model, T extends AbstractMath<M>> {
     }
 
     public M add(M a) throws DataException, ActionException {
-        return fNumber.add(a);
+        return fNumber.add(a, a);
     }
 
     public void clear() {

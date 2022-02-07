@@ -4,58 +4,44 @@ import exeption.ActionException;
 import exeption.DataException;
 import model.Fraction;
 
-public class FractionMath extends Fraction implements AbstractMath<Fraction> {
-    Fraction a;
+public class FractionMath extends Fraction implements InterfaceMath<Fraction> {
 
-    public FractionMath(Fraction a) throws DataException {
-        super(a);
-        this.a = a;
+    public FractionMath() throws DataException {
     }
 
     @Override
-    public Fraction add(Fraction f2) throws ActionException, DataException {
-        Fraction f = this.a;
-        if (f.b == f2.getB()) {
-            return new Fraction(f.a + f2.getA(), f.b);
+    public Fraction add(Fraction a, Fraction b) throws ActionException, DataException {
+        if (a.b == b.getB()) {
+            return new Fraction(a.a + b.getA(), a.b);
         } else {
-            int b = f.b * f2.getB();
-            int a = f.a * f2.getA();
-            a += f2.getA() * f.b;
-            return new Fraction(a, b);
+            int down = a.b * b.getB();
+            int up = a.a * b.getA();
+            up += b.getA() * a.b;
+            return new Fraction(up, down);
         }
     }
 
     @Override
-    public Fraction subtraction(Fraction f2) throws DataException, ActionException {
-        return add(new Fraction(f2.getA() * (-1), f2.getB()));
+    public Fraction subtraction(Fraction a, Fraction b) throws DataException, ActionException {
+        return add(a, new Fraction(b.getA() * (-1), b.getB()));
     }
 
     @Override
-    public Fraction multiplication(Fraction f2) throws DataException {
-        return new Fraction(super.a * f2.getA(), super.b * f2.getB());
+    public Fraction multiplication(Fraction a, Fraction b) throws DataException {
+        return new Fraction(a.getA() * b.getA(), b.getB() * b.getB());
     }
 
     @Override
-    public Fraction division(Fraction f2) throws DataException {
-        return new Fraction(super.a * f2.getB(), super.b * f2.getA());
+    public Fraction division(Fraction a, Fraction b) throws DataException {
+        return new Fraction(a.getA() * b.getB(), a.getB() * b.getA());
     }
 
-    public Fraction square() throws DataException {
-        return new Fraction(multiplication(a));
+    public Fraction square(Fraction a) throws DataException {
+        return new Fraction(multiplication(a, a));
     }
 
     @Override
-    public Fraction inverse() throws DataException {
+    public Fraction inverse(Fraction a) throws DataException {
         return new Fraction(a.getB(), a.getA());
-    }
-
-    @Override
-    public Fraction getModel() {
-        return a;
-    }
-
-    @Override
-    public FractionMath toMath() throws DataException {
-        return new FractionMath(a);
     }
 }
